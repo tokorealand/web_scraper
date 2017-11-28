@@ -16,11 +16,12 @@ public class ScraperMain {
    ScraperMain()
    {
 
-        JFrame frame = new JFrame("Scapper");
+        JFrame frame = new JFrame("Scraper");
         frame.setContentPane(Scraper);
         frame.setSize(500,500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        phoneNumbersTextArea.setEditable(false);
 
 findPhoneNumbersButton.addActionListener(e -> {
 
@@ -31,7 +32,7 @@ findPhoneNumbersButton.addActionListener(e -> {
         @Override
         protected String doInBackground() throws Exception {
             //Execute your logic
-            phoneNumbersTextArea.setText("Phone Number: " + finder.searchPageForNumber( address.getText()
+            phoneNumbersTextArea.setText("Phone Numbers: " + "\n" + finder.searchPageForNumber( address.getText()
             ) + "\n" +"Website: " + address.getText());
             return null;
         }

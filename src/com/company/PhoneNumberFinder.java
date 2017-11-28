@@ -7,19 +7,34 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 class PhoneNumberFinder {
 
-    ArrayList<String> foundNumbers = new ArrayList<>();
+    ArrayList<String> foundNumbers;
 
-    private static String findNumber(String page)
+    private  ArrayList<String> findNumber(String page)
     {
 
+        foundNumbers= new ArrayList<>();
         Pattern p = Pattern.compile("(?!Fax$)\\(?\\d{3}\\)?[-\\s\\.]?\\d{3}[-\\s\\.]?\\d{4}\n");
         Matcher m = p.matcher(page);
 
-        if (m.find()) {
+        while (m.find()) {
             System.out.println(m.group());
-            return  m.group();
+            foundNumbers.add(m.group());
         }
-        return "No phone numbers found!";
+        if(foundNumbers.isEmpty())
+        {
+             foundNumbers.add("No numbers found!");
+             return foundNumbers;
+        }
+        return  foundNumbers;
+    }
+
+    private String beautifulNumberArray(ArrayList<String> phoneNumbers)
+    {
+        String numbers="";
+        for (String number:phoneNumbers) {
+            numbers+=number+"\n";
+        }
+        return  numbers;
     }
 
     String searchPageForNumber(String address)
@@ -38,7 +53,7 @@ class PhoneNumberFinder {
             str = str.replace(".", "");
 
             System.out.println(str);
-            return  findNumber(str);
+            return  beautifulNumberArray(findNumber(str));
 
 
 
@@ -47,7 +62,7 @@ class PhoneNumberFinder {
 
         }catch(Exception e){
             e.printStackTrace();
-            return "";
+            return null;
         }
     }
     }
